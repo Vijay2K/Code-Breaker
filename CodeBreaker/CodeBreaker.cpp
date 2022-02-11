@@ -8,20 +8,24 @@
 using namespace std;
 
 void GameIntro();
+void StoryLine();
 void PlayerInputs(char);
 void StartGame();
 void RestartGame();
 bool isPalindrome(string);
+void Loading(int);
+void AsciiArt();
+void TitleAscii();
 
 int health = MaxHealth;
 char c;
 
 int main()
 {
-	cout << "Press 'P' to start the game." << endl;
-	cout << "Press 'Q' to Quit" << endl;
-
-	cout << "\nEnter Here : ";
+	TitleAscii();
+	cout << "\n			Press 'P' to start the game." << endl;
+	cout << "			Press 'Q' to Quit" << endl;
+	cout << "\n			Enter Here : ";
 	cin >> c;
 
 	PlayerInputs(c);
@@ -80,45 +84,53 @@ void StartGame() {
 	do
 	{
 		cout << setw(25);
-		cout << "Level - " << level << "\t\t" << "Health : " << health << "\n" << endl;
-		cout << "Guess the words To break the password\n" << endl;
-		cout << "Hints to guess the word...\n" << endl;
-		cout << "* LENGTH OF THE WORD : " << words[index].length() << endl;
-		cout << "* BRIEF ABOUT THE WORD : " << briefs[index] << endl;
+		cout << "		Level - " << level << "\t\t" << "Health : " << health << "\n" << endl;
+		cout << "		Guess the words To break the password\n" << endl;
+		Loading(level);
+		cout << "		Hints to guess the word...\n" << endl;
+		cout << "		* LENGTH OF THE WORD : " << words[index].length() << endl;
+		cout << "		* BRIEF ABOUT THE WORD : " << briefs[index] << endl;
 
 		if (isPalindrome(words[index]))
 		{
-			cout << "* THE WORD IS A PALINDROME" << endl;
+			cout << "		* THE WORD IS A PALINDROME" << endl;
 		}
 		else {
-			cout << "* THE WORD IS NOT A PALINDROME" << endl;
+			cout << "		* THE WORD IS NOT A PALINDROME" << endl;
 		}
 
-		cout << "\nEnter the correct words : ";
+		cout << "\n";
+		cout << "		Enter the correct words : ";
 		cin >> str;
-
+		
 		if (str == words[index]) {
-			cout << "\nTHE WORD IS CORRECT" << endl;
+			cout << "\n";
+			cout << "		THE WORD IS CORRECT" << endl;
 			correctAns++;
 			index++;
 			Sleep(2000);
 			system("cls");
+			TitleAscii();
+			GameIntro();
 		}
 		else
 		{
-			cout << "\n NO.....THAT'S WRONG PLS TRY AGAIN..." << endl;
+			cout << "\n";
+			cout << "		NO.....THAT'S WRONG PLS TRY AGAIN..." << endl;
 			health--;
 			Sleep(2000);
 			system("cls");
+			TitleAscii();
+			GameIntro();
 		}
 
 		if (correctAns == 3) {
 			level++;
-			cout << "	------You have reached the level " << level << "------" << endl << "\n";
+			cout << "		------You have reached the level " << level << "------" << endl << "\n";
 			correctAns = 0;
 
 			if (health < MaxHealth) {
-				cout << "      ------You got the bonus of extra 1 health------\n" << endl;
+				cout << "		------You got the bonus of extra 1 health------\n" << endl;
 				health++;
 			}
 		}
@@ -130,14 +142,15 @@ void StartGame() {
 	}
 
 	if (index >= totalWords) {
-		cout << "The Game Over.... You have successfully completed the game..." << endl;
+		AsciiArt();
 		RestartGame();
 	}
 }
 
 void RestartGame() {
-	cout << "Game Over" << endl;
-	cout << "Press 'R' to restart the game or Press 'Q' to quit the game..." << endl;
+	cout << "\n			********** Game Over **********\n" << endl;
+	cout << "	Press 'R' to restart the game or Press 'Q' to quit the game..." << endl;
+	cout << "	Enter Here : ";
 	cin >> c;
 	PlayerInputs(c);
 }
@@ -147,9 +160,12 @@ void PlayerInputs(char c)
 	switch (c)
 	{
 	case 'p':
+		StoryLine();
 		StartGame();
 		break;
 	case 'r':
+		system("cls");
+		TitleAscii();
 		StartGame();
 		break;
 	case 'q':
@@ -157,6 +173,19 @@ void PlayerInputs(char c)
 	default:
 		break;
 	}
+}
+
+void Loading(int level) {
+	int percent = 0;
+	cout << "		BREACHING STATUS....." << endl;
+	cout << "		";
+	for (int i = 1; i <= level - 1; i++)
+	{
+		cout << "##";
+		percent += 10;
+	}
+	cout << "\n		____________________" << endl;
+	cout << "			" << percent <<"%	 \n" << endl;
 }
 
 bool isPalindrome(string str)
@@ -172,10 +201,60 @@ bool isPalindrome(string str)
 
 void GameIntro()
 {
-	cout << "\nGame started.....\n" << endl;
-	cout << "RULES : " << endl;
-	cout << "    - The Player will have three healths" << endl;
-	cout << "    - Each Level has three questions" << endl;
-	cout << "    - You need to finish 10 levels to reach the code" << endl;
-	cout << "----------------------------------------------------------------\n" << endl;
+	cout << "\n";
+	cout << "		Game started.....\n" << endl;
+	cout << "		RULES : " << endl;
+	cout << "			- The Player will only have three attempts" << endl;
+	cout << "			- Each Level has three questions" << endl;
+	cout << "			- You need to finish 10 levels to breach the password" << endl;
+	cout << "		----------------------------------------------------------------\n" << endl;
+}
+
+void StoryLine()
+{
+	string str = "		YOU ARE A VIGILANTE HACKER WANTS TO HACK THE SYSTEM OF DRUG DEALER WHO MAKES DEALING IN THE DARK WEB.....\n\n";
+	string str1 = "		YOU NEED TO BREACH INTO 10 LEVEL OF SECURITY TO CRACK THE PASSWORD OF HIS SYSTEM....\n";
+
+	cout << "\n";
+	for (int i = 0; i < str.length(); i++)
+	{
+		cout << str[i];
+		Sleep(50);
+	}
+	cout << "\n";
+	for (int i = 0; i < str1.length(); i++)
+	{
+		cout << str1[i];
+		Sleep(50);
+	}
+}
+
+void TitleAscii()
+{
+	cout << setw(50);
+	cout <<
+		R"(                        
+		                       $$ |               $$ |                                $$ |                        
+		$$$$$$$\ $$$$$$\  $$$$$$$ |$$$$$$\        $$$$$$$\  $$$$$$\  $$$$$$\  $$$$$$\ $$ |  $$\ $$$$$$\  $$$$$$\  
+		$$  _____$$  __$$\$$  __$$ $$  __$$\       $$  __$$\$$  __$$\$$  __$$\ \____$$\$$ | $$  $$  __$$\$$  __$$\ 
+		$$ /     $$ /  $$ $$ /  $$ $$$$$$$$ |      $$ |  $$ $$ |  \__$$$$$$$$ |$$$$$$$ $$$$$$  /$$$$$$$$ $$ |  \__|
+		$$ |     $$ |  $$ $$ |  $$ $$   ____|      $$ |  $$ $$ |     $$   ____$$  __$$ $$  _$$< $$   ____$$ |      
+		\$$$$$$$\\$$$$$$  \$$$$$$$ \$$$$$$$\       $$$$$$$  $$ |     \$$$$$$$\\$$$$$$$ $$ | \$$\\$$$$$$$\$$ |      
+		\_______|\______/ \_______|\_______|      \_______/\__|      \_______|\_______\__|  \__|\_______\__| 
+		)";
+}
+
+void AsciiArt()
+{
+cout << 
+R"(   
+	   $$\                           $$\                       $$\ 
+	   $$ |                          $$ |                      $$ |
+	   $$$$$$$\   $$$$$$\   $$$$$$$\ $$ |  $$\  $$$$$$\   $$$$$$$ |
+	   $$  __$$\  \____$$\ $$  _____|$$ | $$  |$$  __$$\ $$  __$$ |
+	   $$ |  $$ | $$$$$$$ |$$ /      $$$$$$  / $$$$$$$$ |$$ /  $$ |
+	   $$ |  $$ |$$  __$$ |$$ |      $$  _$$<  $$   ____|$$ |  $$ |
+	   $$ |  $$ |\$$$$$$$ |\$$$$$$$\ $$ | \$$\ \$$$$$$$\ \$$$$$$$ |
+	   \__|  \__| \_______| \_______|\__|  \__| \_______| \_______|
+    )";
 }
