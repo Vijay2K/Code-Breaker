@@ -43,19 +43,25 @@ void StartGame() {
 
 	fstream f_word;
 	fstream f_brief;
+	fstream f_riddle;
 
 	string words[1000];
 	string briefs[1000];
+	string riddles[1000];
 	string word;
 	string brief;
+	string riddle;
 
 	int word_index = 0;
 	int brief_index = 0;
+	int riddle_index = 0;
 	int totalWords = 0;
 	int correctAns = 0;
+	int question = 1;
 
 	f_word.open("word.txt", ios::in);
 	f_brief.open("briefs.txt", ios::in);
+	f_riddle.open("riddles.txt", ios::in);
 
 	if (f_word.is_open()) {
 		while (getline(f_word, word))
@@ -79,6 +85,17 @@ void StartGame() {
 		f_brief.close();
 	}
 
+	if (f_riddle.is_open())
+	{
+		while (getline(f_riddle, riddle))
+		{
+			riddles[riddle_index] = riddle;
+			riddle_index++;
+		}
+
+		f_riddle.close();
+	}
+
 	GameIntro();
 
 	do
@@ -87,6 +104,8 @@ void StartGame() {
 		cout << "		Level - " << level << "\t\t" << "Health : " << health << "\n" << endl;
 		cout << "		Guess the words To break the password\n" << endl;
 		Loading(level);
+		cout << "\n";
+		cout << "		" << question << ". " << riddles[index] << "\n" << endl;
 		cout << "		Hints to guess the word...\n" << endl;
 		cout << "		* LENGTH OF THE WORD : " << words[index].length() << endl;
 		cout << "		* BRIEF ABOUT THE WORD : " << briefs[index] << endl;
@@ -108,6 +127,7 @@ void StartGame() {
 			cout << "		THE WORD IS CORRECT" << endl;
 			correctAns++;
 			index++;
+			question++;
 			Sleep(2000);
 			system("cls");
 			TitleAscii();
