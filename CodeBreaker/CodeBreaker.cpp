@@ -13,7 +13,8 @@ void PlayerInputs(char);
 void StartGame();
 void RestartGame();
 bool isPalindrome(string);
-void Loading(int);
+void BreachStatus(int);
+void LoadingBar();
 void AsciiArt();
 void TitleAscii();
 
@@ -27,7 +28,6 @@ int main()
 	cout << "			Press 'Q' to Quit" << endl;
 	cout << "\n			Enter Here : ";
 	cin >> c;
-
 	PlayerInputs(c);
 
 	return 0;
@@ -103,7 +103,7 @@ void StartGame() {
 		cout << setw(25);
 		cout << "		Level - " << level << "\t\t" << "Health : " << health << "\n" << endl;
 		cout << "		Guess the words To break the password\n" << endl;
-		Loading(level);
+		BreachStatus(level);
 		cout << "\n";
 		cout << "		" << question << ". " << riddles[index] << "\n" << endl;
 		cout << "		Hints to guess the word...\n" << endl;
@@ -123,6 +123,7 @@ void StartGame() {
 		cin >> str;
 		
 		if (str == words[index]) {
+			system("cls");
 			cout << "\n";
 			cout << "		THE WORD IS CORRECT" << endl;
 			correctAns++;
@@ -135,6 +136,7 @@ void StartGame() {
 		}
 		else
 		{
+			system("cls");
 			cout << "\n";
 			cout << "		NO.....THAT'S WRONG PLS TRY AGAIN..." << endl;
 			health--;
@@ -147,6 +149,7 @@ void StartGame() {
 		if (correctAns == 3) {
 			level++;
 			cout << "		------You have reached the level " << level << "------" << endl << "\n";
+			LoadingBar();
 			correctAns = 0;
 
 			if (health < MaxHealth) {
@@ -158,17 +161,18 @@ void StartGame() {
 	} while (index < totalWords && health > 0);
 
 	if (health == 0) {
+		cout << "\n			********** Game Over **********\n" << endl;
 		RestartGame();
 	}
 
 	if (index >= totalWords) {
 		AsciiArt();
+		cout << "\n			********** Successfully breached the password **********\n" << endl;
 		RestartGame();
 	}
 }
 
 void RestartGame() {
-	cout << "\n			********** Game Over **********\n" << endl;
 	cout << "	Press 'R' to restart the game or Press 'Q' to quit the game..." << endl;
 	cout << "	Enter Here : ";
 	cin >> c;
@@ -181,6 +185,9 @@ void PlayerInputs(char c)
 	{
 	case 'p':
 		StoryLine();
+		Sleep(500);
+		LoadingBar();
+		Sleep(500);
 		StartGame();
 		break;
 	case 'r':
@@ -195,7 +202,7 @@ void PlayerInputs(char c)
 	}
 }
 
-void Loading(int level) {
+void BreachStatus(int level) {
 	int percent = 0;
 	cout << "		BREACHING STATUS....." << endl;
 	cout << "		";
@@ -228,6 +235,17 @@ void GameIntro()
 	cout << "			- Each Level has three questions" << endl;
 	cout << "			- You need to finish 10 levels to breach the password" << endl;
 	cout << "		----------------------------------------------------------------\n" << endl;
+}
+
+void LoadingBar()
+{
+	cout << "\n		Loading...\n";
+	cout << "		";
+	for (int i = 0; i < 25; i++) {
+		cout << "#";
+		Sleep(100);
+	}
+	cout << "\n";
 }
 
 void StoryLine()
