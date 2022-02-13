@@ -14,9 +14,10 @@ void StartGame();
 void RestartGame();
 bool isPalindrome(string);
 void BreachStatus(int);
-void LoadingBar();
+void LoadingBar(string str);
 void AsciiArt();
 void TitleAscii();
+void GameoverAsciiArt();
 
 int health = MaxHealth;
 char c;
@@ -101,7 +102,7 @@ void StartGame() {
 	do
 	{
 		cout << setw(25);
-		cout << "		Level - " << level << "\t\t" << "Health : " << health << "\n" << endl;
+		cout << "		Level - " << level << "\t\t" << "Attempts : " << health << "\n" << endl;
 		cout << "		Guess the words To break the password\n" << endl;
 		BreachStatus(level);
 		cout << "\n";
@@ -123,9 +124,9 @@ void StartGame() {
 		cin >> str;
 		
 		if (str == words[index]) {
-			system("cls");
+			//system("cls");
 			cout << "\n";
-			cout << "		THE WORD IS CORRECT" << endl;
+			cout << "		********** THE WORD IS CORRECT **********" << endl;
 			correctAns++;
 			index++;
 			question++;
@@ -136,9 +137,9 @@ void StartGame() {
 		}
 		else
 		{
-			system("cls");
+			//system("cls");
 			cout << "\n";
-			cout << "		NO.....THAT'S WRONG PLS TRY AGAIN..." << endl;
+			cout << "		********** NO.....THAT'S WRONG PLS TRY AGAIN **********..." << endl;
 			health--;
 			Sleep(2000);
 			system("cls");
@@ -149,25 +150,32 @@ void StartGame() {
 		if (correctAns == 3) {
 			level++;
 			cout << "		------You have reached the level " << level << "------" << endl << "\n";
-			LoadingBar();
+			
 			correctAns = 0;
+			question = 1;
 
 			if (health < MaxHealth) {
 				cout << "		------You got the bonus of extra 1 health------\n" << endl;
 				health++;
 			}
+			LoadingBar("Loading...");
 		}
 
 	} while (index < totalWords && health > 0);
 
 	if (health == 0) {
-		cout << "\n			********** Game Over **********\n" << endl;
+		GameoverAsciiArt();
+		cout << "\n			********** Oops.... run out of attempts **********\n" << endl;
 		RestartGame();
 	}
 
 	if (index >= totalWords) {
+		LoadingBar("Breaching...");
+		Sleep(200);
 		AsciiArt();
-		cout << "\n			********** Successfully breached the password **********\n" << endl;
+		cout << "\n";
+		LoadingBar("Sending anonymous tip...");
+		cout << "\n			********** Successfully Mission Completed **********\n" << endl;
 		RestartGame();
 	}
 }
@@ -183,22 +191,26 @@ void PlayerInputs(char c)
 {
 	switch (c)
 	{
-	case 'p':
-		StoryLine();
-		Sleep(500);
-		LoadingBar();
-		Sleep(500);
-		StartGame();
-		break;
-	case 'r':
-		system("cls");
-		TitleAscii();
-		StartGame();
-		break;
-	case 'q':
-		exit(0);
-	default:
-		break;
+		case 'p':
+			StoryLine();
+			Sleep(500);
+			LoadingBar("Loading...");
+			Sleep(500);
+			StartGame();
+			break;
+		case 'r':
+			system("cls");
+			TitleAscii();
+			StoryLine();
+			Sleep(500);
+			LoadingBar("Loading...");
+			Sleep(500);
+			StartGame();
+			break;
+		case 'q':
+			exit(0);
+		default:
+			break;
 	}
 }
 
@@ -237,21 +249,25 @@ void GameIntro()
 	cout << "		----------------------------------------------------------------\n" << endl;
 }
 
-void LoadingBar()
+void LoadingBar(string str)
 {
-	cout << "\n		Loading...\n";
+	cout << "\n		     " << str << "\n";
 	cout << "		";
 	for (int i = 0; i < 25; i++) {
 		cout << "#";
 		Sleep(100);
 	}
-	cout << "\n";
+	cout << "\n\n";
 }
 
 void StoryLine()
 {
-	string str = "		YOU ARE A VIGILANTE HACKER WANTS TO HACK THE SYSTEM OF DRUG DEALER WHO MAKES DEALING IN THE DARK WEB.....\n\n";
-	string str1 = "		YOU NEED TO BREACH INTO 10 LEVEL OF SECURITY TO CRACK THE PASSWORD OF HIS SYSTEM....\n";
+	cout << "\n		Story Line : \n" << endl;
+	string str = "		YOU ARE A VIGILANTE HACKER WANTS TO HACK THE SYSTEM OF DRUG DEALER WHO MAKES DEALING IN THE DARK WEB.....\n";
+	string str1 = "		THEY WERE USING TOR NETWORKING TO KEEP THE SERVER ANONYMOUS....\n";
+	string str2 = "		WE NEED TO HACK THE EMAILS, FILES AND ALL THE DETAILS...\n";
+	string str3 = "		AND SEND THOSE DETAILS TO POLICE AS A ANONYMOUS TIP....\n";
+	string str4 = "		BUT YOU NEED TO BREACH INTO 10 LEVEL OF SECURITY TO CRACK THE PASSWORD OF HIS SYSTEM....\n";
 
 	cout << "\n";
 	for (int i = 0; i < str.length(); i++)
@@ -263,6 +279,24 @@ void StoryLine()
 	for (int i = 0; i < str1.length(); i++)
 	{
 		cout << str1[i];
+		Sleep(50);
+	}
+	cout << "\n";
+	for (int i = 0; i < str2.length(); i++)
+	{
+		cout << str2[i];
+		Sleep(50);
+	}
+	cout << "\n";
+	for (int i = 0; i < str3.length(); i++)
+	{
+		cout << str3[i];
+		Sleep(50);
+	}
+	cout << "\n";
+	for (int i = 0; i < str4.length(); i++)
+	{
+		cout << str4[i];
 		Sleep(50);
 	}
 }
@@ -295,4 +329,19 @@ R"(
 	   $$ |  $$ |\$$$$$$$ |\$$$$$$$\ $$ | \$$\ \$$$$$$$\ \$$$$$$$ |
 	   \__|  \__| \_______| \_______|\__|  \__| \_______| \_______|
     )";
+}
+
+void GameoverAsciiArt()
+{
+cout <<
+R"(
+	$$$$$$\                                           $$$$$$\                                       
+	$$  __$$\                                         $$  __$$\                                      
+	$$ /  \__| $$$$$$\  $$$$$$\$$$$\   $$$$$$\        $$ /  $$ |$$\    $$\  $$$$$$\   $$$$$$\        
+	$$ |$$$$\  \____$$\ $$  _$$  _$$\ $$  __$$\       $$ |  $$ |\$$\  $$  |$$  __$$\ $$  __$$\       
+	$$ |\_$$ | $$$$$$$ |$$ / $$ / $$ |$$$$$$$$ |      $$ |  $$ | \$$\$$  / $$$$$$$$ |$$ |  \__|      
+	$$ |  $$ |$$  __$$ |$$ | $$ | $$ |$$   ____|      $$ |  $$ |  \$$$  /  $$   ____|$$ |            
+	\$$$$$$  |\$$$$$$$ |$$ | $$ | $$ |\$$$$$$$\        $$$$$$  |   \$  /   \$$$$$$$\ $$ |            
+	 \______/  \_______|\__| \__| \__| \_______|       \______/     \_/     \_______|\__| 
+)";
 }

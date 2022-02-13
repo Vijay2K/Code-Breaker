@@ -13,3 +13,13 @@ e
 advice
 mirror
 plant
+level
+pea
+teeth
+gloves
+plate
+horizon
+shadow
+stamp
+egg
+dice
